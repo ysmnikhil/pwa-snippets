@@ -2,34 +2,30 @@
 * Webkul Software.
 *
 * @category Webkul, Uvdesk
-* @package Webkul_UVdesk_PWA
+* @package Webkul_PWA
 * @author Nikhil
 * @copyright Copyright (c) 2010-2016 Webkul Software Private Limited (https://webkul.com)
 * @license https://store.webkul.com/license.html
 */
 
-//https://mdn.mozillademos.org/files/12636/sw-lifecycle.png
-//https://mdn.mozillademos.org/files/12632/sw-events.png
-
 // Few listener for PWA/service worker with registering service worker
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').then(function(reg) {
+    navigator.serviceWorker.register('app/sw.js').then(function(reg) {
         //our service worker code
-
         if (reg.waiting) {
-
-
+            reg.waiting.postMessage({action: 'skipWaiting'});
+            
         }else if (reg.installing) {
-
 
         } else if (reg.active) {
 
-        
         }
 
         reg.addEventListener('updatefound', function() {
 
         });
+    }).catch(function(err) {
+        console.log("Service Worker Failed to Register. Reason: ", err);
     })
 
     navigator.serviceWorker.addEventListener('controllerchange', function() {
@@ -47,5 +43,3 @@ if ('serviceWorker' in navigator) {
 
     //our other service worker code
 }
-
-console.log('Bazinga');
